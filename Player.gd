@@ -11,6 +11,9 @@ const RUN_ACCELERATOR = 45
 const JUMP_HEIGHT = 450
 const RUN_SPEED = 120
 
+func on_slope():
+    return test_move(transform, Vector2(1, 0)) or test_move(transform, Vector2(-1, 0))
+
 func _physics_process(delta):
     stopping = false
 
@@ -40,7 +43,10 @@ func _physics_process(delta):
             motion.y = -JUMP_HEIGHT
 
         if stopping:
-            motion.x = lerp(motion.x, 0, 0.2)
+            if not on_slope():
+                motion.x = lerp(motion.x, 0, 0.2)
+            else:
+                motion.x = 0
 
     else:
         ANIM.play('jump')

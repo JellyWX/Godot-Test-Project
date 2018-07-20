@@ -2,19 +2,19 @@
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Player/Idle0.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Player/Run0.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/Player/Run1.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Player/Run2.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/Player/Run3.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Player/Run4.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/Player/Run7.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/Player/Jump0.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/Player/Jump1.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/Player/Jump3.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/Player/Jump4.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/Player/Jump0.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Player/Jump1.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Player/Jump3.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Player/Jump4.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Player/Run0.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Player/Run1.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Player/Run2.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Player/Run3.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Player/Run4.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/Player/Run7.png" type="Texture" id=12]
 [ext_resource path="res://JungleTiles.tres" type="TileSet" id=13]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
 "frames": [ ExtResource( 2 ) ],
@@ -22,22 +22,23 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
-"loop": true,
-"name": "run",
-"speed": 10.0
-}, {
-"frames": [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ) ],
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
 "loop": false,
 "name": "jump",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ) ],
+"loop": true,
+"name": "run",
+"speed": 10.0
 } ]
 _sections_unfolded = [ "Resource" ]
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="CapsuleShape2D" id=2]
 
 custom_solver_bias = 0.0
-extents = Vector2( 5.62682, 13.5294 )
+radius = 14.0
+height = 28.3955
 
 [node name="WorldNode" type="Node" index="0"]
 
@@ -53,19 +54,18 @@ _sections_unfolded = [ "Collision", "Material", "Pause", "Pickable", "Transform"
 
 [node name="Sprite" type="AnimatedSprite" parent="Player" index="0"]
 
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 animation = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" index="1"]
 
-position = Vector2( 4.29153e-06, 2.81224 )
-scale = Vector2( 2.46154, 2.05515 )
-shape = SubResource( 3 )
+position = Vector2( 1.70475, 3.82003 )
+shape = SubResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="TileMap" type="TileMap" parent="." index="1"]
 
-position = Vector2( 0, -1 )
+position = Vector2( -151.736, -18.0802 )
 mode = 0
 tile_set = ExtResource( 13 )
 cell_size = Vector2( 32, 32 )

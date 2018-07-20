@@ -3,39 +3,45 @@ extends KinematicBody2D
 var motion = Vector2()
 const UP = Vector2(0, -1)
 onready var ANIM = $Sprite
-var jump = false
 
 const MAX_VEL = 2500
-const FALL_ACCELERATOR = 500
-const JUMP_HEIGHT = 300
+const FALL_ACCELERATOR = 20
+const RUN_ACCELERATOR = 45
+const JUMP_HEIGHT = 450
 const RUN_SPEED = 100
 
 func _physics_process(delta):
-    motion.x = 0
 
     if motion.y < MAX_VEL:
-        motion.y += FALL_ACCELERATOR * delta
+        motion.y += FALL_ACCELERATOR
 
     if Input.is_action_pressed('ui_right'):
-        motion.x = RUN_SPEED
+        motion.x += RUN_ACCELERATOR
         ANIM.flip_h = false
 
-    if Input.is_action_pressed('ui_left'):
-        motion.x = -RUN_SPEED
+    elif Input.is_action_pressed('ui_left'):
+        motion.x -= RUN_ACCELERATOR
         ANIM.flip_h = true
 
+    else:
+        motion.x = lerp(motion.x, 0, 0.2)
+
+    motion.x = clamp(motion.x, -RUN_SPEED, RUN_SPEED)
+
     if is_on_floor():
-        jump = false
-        if Input.is_action_pressed("ui_up"):
-            ANIM.frame = 0
-            jump = true
+        if motion.x != 0:
+            ANIM.play('run')
+        else:
+            ANIM.play('idle')
+
+        if Input.is_action_pressed('ui_up'):
             motion.y = -JUMP_HEIGHT
+    else:
+        ANIM.play('jump')
+        ANIM.stop()
+        if motion.y > 0:
+            ANIM.frame = 3
+        else:
+            ANIM.frame = 0
 
     motion = move_and_slide( motion, UP )
-
-    if jump:
-        ANIM.play('jump')
-    elif motion.x != 0:
-        ANIM.play('run')
-    else:
-        ANIM.play('idle')

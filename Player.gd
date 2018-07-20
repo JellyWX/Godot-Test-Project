@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 var motion = Vector2()
 const UP = Vector2(0, -1)
-onready var ANIM = get_node('Sprite')
+onready var ANIM = $Sprite
 var jump = false
 
 func _physics_process(delta):
@@ -19,6 +19,7 @@ func _physics_process(delta):
     if is_on_floor():
         jump = false
         if Input.is_action_pressed("ui_up"):
+            ANIM.frame = 0
             jump = true
             motion.y = -250
 

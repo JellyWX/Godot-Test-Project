@@ -18,8 +18,11 @@ func _physics_process(delta):
 
     if Input.is_action_pressed('ui_right'):
         motion.x = RUN_SPEED
+        ANIM.flip_h = false
+
     if Input.is_action_pressed('ui_left'):
         motion.x = -RUN_SPEED
+        ANIM.flip_h = true
 
     if is_on_floor():
         jump = false
@@ -29,11 +32,6 @@ func _physics_process(delta):
             motion.y = -JUMP_HEIGHT
 
     motion = move_and_slide( motion, UP )
-
-    if motion.x > 0:
-        ANIM.flip_h = false
-    elif motion.x < 0:
-        ANIM.flip_h = true
 
     if jump:
         ANIM.play('jump')

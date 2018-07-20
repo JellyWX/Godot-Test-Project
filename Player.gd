@@ -5,23 +5,28 @@ const UP = Vector2(0, -1)
 onready var ANIM = $Sprite
 var jump = false
 
+const MAX_VEL = 2500
+const FALL_ACCELERATOR = 500
+const JUMP_HEIGHT = 300
+const RUN_SPEED = 100
+
 func _physics_process(delta):
     motion.x = 0
 
-    if motion.y < 2500:
-        motion.y += 500*delta
+    if motion.y < MAX_VEL:
+        motion.y += FALL_ACCELERATOR * delta
 
     if Input.is_action_pressed('ui_right'):
-        motion.x = 100
+        motion.x = RUN_SPEED
     if Input.is_action_pressed('ui_left'):
-        motion.x = -100
+        motion.x = -RUN_SPEED
 
     if is_on_floor():
         jump = false
         if Input.is_action_pressed("ui_up"):
             ANIM.frame = 0
             jump = true
-            motion.y = -250
+            motion.y = -JUMP_HEIGHT
 
     motion = move_and_slide( motion, UP )
 

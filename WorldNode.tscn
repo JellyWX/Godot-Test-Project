@@ -1,33 +1,40 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=19 format=2]
 
-[ext_resource path="res://Player.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/Player/Idle0.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Player/Jump0.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/Player/Jump1.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Player/Jump3.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/Player/Jump4.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Player/Run0.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/Player/Run1.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/Player/Run2.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/Player/Run3.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/Player/Run4.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/Player/Run7.png" type="Texture" id=12]
-[ext_resource path="res://JungleTiles.tres" type="TileSet" id=13]
+[ext_resource path="res://Progessor.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Player.gd" type="Script" id=3]
+[ext_resource path="res://Sprites/Player/Idle0.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Player/Jump0.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Player/Jump1.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Player/Jump3.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Player/Jump4.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Player/Run0.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Player/Run1.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Player/Run2.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/Player/Run3.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/Player/Run4.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/Player/Run7.png" type="Texture" id=14]
+[ext_resource path="res://JungleTiles.tres" type="TileSet" id=15]
+
+[sub_resource type="RectangleShape2D" id=3]
+
+custom_solver_bias = 0.0
+extents = Vector2( 32, 32 )
 
 [sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
-"frames": [ ExtResource( 2 ) ],
+"frames": [ ExtResource( 4 ) ],
 "loop": true,
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
 "loop": false,
 "name": "jump",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ) ],
+"frames": [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ) ],
 "loop": true,
 "name": "run",
 "speed": 10.0
@@ -42,15 +49,42 @@ height = 28.3955
 
 [node name="WorldNode" type="Node" index="0"]
 
-[node name="Player" type="KinematicBody2D" parent="." index="0"]
+[node name="Area2D" type="Area2D" parent="." index="0"]
 
-position = Vector2( 448, 224 )
+position = Vector2( 555.125, 91.9668 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 1 )
+_sections_unfolded = [ "Collision" ]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Logo" type="Sprite" parent="Area2D" index="0"]
+
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="1"]
+
+shape = SubResource( 3 )
+
+[node name="Player" type="KinematicBody2D" parent="." index="1"]
+
+position = Vector2( 66.811, 206.895 )
 input_pickable = false
 collision_layer = 1
 collision_mask = 1
 collision/safe_margin = 0.08
-script = ExtResource( 1 )
+script = ExtResource( 3 )
 _sections_unfolded = [ "Collision", "Material", "Pause", "Pickable", "Transform", "Visibility", "Z Index", "collision" ]
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Sprite" type="AnimatedSprite" parent="Player" index="0"]
 
@@ -63,11 +97,11 @@ position = Vector2( 1.70475, 3.82003 )
 shape = SubResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="TileMap" type="TileMap" parent="." index="1"]
+[node name="TileMap" type="TileMap" parent="." index="2"]
 
 position = Vector2( -151.736, -18.0802 )
 mode = 0
-tile_set = ExtResource( 13 )
+tile_set = ExtResource( 15 )
 cell_size = Vector2( 32, 32 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -82,7 +116,10 @@ collision_layer = 1
 collision_mask = 1
 occluder_light_mask = 1
 format = 1
-tile_data = PoolIntArray( 327700, 0, 0, 327701, 1, 0, 327702, 1, 0, 327703, 2, 0, 393236, 6, 0, 393237, 7, 0, 393238, 7, 0, 393239, 8, 0, 589829, 0, 0, 589830, 1, 0, 589831, 1, 0, 589832, 1, 0, 589833, 1, 0, 589834, 1, 0, 589835, 1, 0, 589836, 1, 0, 589837, 1, 0, 589838, 1, 0, 589839, 1, 0, 589840, 1, 0, 589841, 1, 0, 589842, 1, 0, 589843, 1, 0, 589844, 1, 0, 589845, 1, 0, 589846, 2, 0, 655365, 3, 0, 655366, 4, 0, 655367, 4, 0, 655368, 4, 0, 655369, 4, 0, 655370, 4, 0, 655371, 4, 0, 655372, 4, 0, 655373, 4, 0, 655374, 4, 0, 655375, 4, 0, 655376, 4, 0, 655377, 4, 0, 655378, 4, 0, 655379, 4, 0, 655380, 4, 0, 655381, 4, 0, 655382, 5, 0, 720901, 6, 0, 720902, 7, 0, 720903, 7, 0, 720904, 7, 0, 720905, 7, 0, 720906, 7, 0, 720907, 7, 0, 720908, 7, 0, 720909, 7, 0, 720910, 7, 0, 720911, 7, 0, 720912, 7, 0, 720913, 7, 0, 720914, 7, 0, 720915, 7, 0, 720916, 7, 0, 720917, 7, 0, 720918, 8, 0 )
+tile_data = PoolIntArray( 327700, 0, 0, 327701, 1, 0, 327702, 1, 0, 327703, 2, 0, 393236, 6, 0, 393237, 7, 0, 393238, 7, 0, 393239, 8, 0, 458768, 0, 0, 458769, 1, 0, 458770, 2, 0, 524304, 3, 0, 524305, 4, 0, 524306, 5, 0, 589829, 0, 0, 589830, 1, 0, 589831, 1, 0, 589832, 1, 0, 589833, 1, 0, 589834, 1, 0, 589835, 1, 0, 589836, 1, 0, 589837, 1, 0, 589838, 1, 0, 589839, 1, 0, 589840, 1, 0, 589841, 1, 0, 589842, 1, 0, 589843, 1, 0, 589844, 1, 0, 589845, 1, 0, 589846, 2, 0, 655365, 3, 0, 655366, 4, 0, 655367, 4, 0, 655368, 4, 0, 655369, 4, 0, 655370, 4, 0, 655371, 4, 0, 655372, 4, 0, 655373, 4, 0, 655374, 4, 0, 655375, 4, 0, 655376, 4, 0, 655377, 4, 0, 655378, 4, 0, 655379, 4, 0, 655380, 4, 0, 655381, 4, 0, 655382, 5, 0, 720901, 6, 0, 720902, 7, 0, 720903, 7, 0, 720904, 7, 0, 720905, 7, 0, 720906, 7, 0, 720907, 7, 0, 720908, 7, 0, 720909, 7, 0, 720910, 7, 0, 720911, 7, 0, 720912, 7, 0, 720913, 7, 0, 720914, 7, 0, 720915, 7, 0, 720916, 7, 0, 720917, 7, 0, 720918, 8, 0 )
 _sections_unfolded = [ "Cell" ]
+__meta__ = {
+"_edit_lock_": true
+}
 
 

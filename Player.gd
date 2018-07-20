@@ -9,7 +9,7 @@ const MAX_VEL = 2500
 const FALL_ACCELERATOR = 20
 const RUN_ACCELERATOR = 45
 const JUMP_HEIGHT = 450
-const RUN_SPEED = 100
+const RUN_SPEED = 120
 
 func _physics_process(delta):
     stopping = false

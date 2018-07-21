@@ -10,6 +10,10 @@ const FALL_ACCELERATOR = 20
 const RUN_ACCELERATOR = 45
 const JUMP_HEIGHT = 450
 const RUN_SPEED = 120
+const MAX_SHAKE = 10
+
+var shake = 0
+
 
 func on_slope():
     return test_move(transform, Vector2(1, 0)) or test_move(transform, Vector2(-1, 0))
@@ -34,6 +38,8 @@ func _physics_process(delta):
     motion.x = clamp(motion.x, -RUN_SPEED, RUN_SPEED)
 
     if is_on_floor():
+        shake = 0
+
         if motion.x != 0:
             ANIM.play('run')
         else:
@@ -53,6 +59,9 @@ func _physics_process(delta):
         ANIM.stop()
         if motion.y > 0:
             ANIM.frame = 3
+            shake = clamp(shake + (1 * delta), 0, MAX_SHAKE)
+            $Camera2D.set_offset(Vector2(rand_range(-shake, shake), rand_range(-shake, shake)))
+
         else:
             ANIM.frame = 0
 
